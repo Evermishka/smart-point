@@ -11,11 +11,11 @@ async function addCategory(category) {
 // edit
 
 async function editCategory(id, category) {
-  const newCategory = await Category.findByIdAndUpdate(id, category, {
+  const updatedCategory = await Category.findByIdAndUpdate(id, category, {
     returnDocument: "after",
   });
 
-  return newCategory;
+  return updatedCategory;
 }
 
 // delete

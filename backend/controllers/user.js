@@ -1,5 +1,6 @@
 const bcrypt = require("bcrypt");
 const User = require("../models/User");
+const Cart = require("../models/Cart");
 const { generate } = require("../helpers/token");
 
 // register
@@ -11,6 +12,7 @@ async function register(login, password) {
 
   const passwordHash = await bcrypt.hash(password, 10);
 
+  
   const user = await User.create({ login, password: passwordHash });
   const token = generate({ id: user.id });
 
@@ -34,10 +36,18 @@ async function login(login, password) {
 
   const token = generate({ id: user.id });
 
+  await user.populate({
+    path: "cart",
+    populate: {
+      path: "items",
+      populate: "product",
+    }
+  });
+
   return { token, user };
 }
 
 module.exports = {
-    register,
-    login,
-  };
+  register,
+  login,
+};

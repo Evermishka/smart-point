@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import { Box, Container, CssBaseline } from '@mui/material';
 import AppTheme from './theme/AppTheme';
-import { Header } from './components';
+import { Footer, Header } from './components';
 
 export const App = (props) => {
 	return (
@@ -39,6 +39,7 @@ export const App = (props) => {
 						<Route path="*" element={<div>Error</div>} />
 					</Routes>
 				</Container>
+				<Footer />
 			</Box>
 		</AppTheme>
 	);

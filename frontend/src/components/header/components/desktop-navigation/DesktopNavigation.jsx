@@ -1,9 +1,9 @@
 import { Link as RouterLink } from 'react-router-dom';
-import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import Divider from '@mui/material/Divider';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import DashboardIcon from '@mui/icons-material/Dashboard';
+import { Button, Divider, IconButton } from '@mui/material';
+import {
+	ShoppingCart as ShoppingCartIcon,
+	Dashboard as DashboardIcon,
+} from '@mui/icons-material';
 
 export const DesktopNavigation = (handleLogoutButtonClick) => {
 	return (

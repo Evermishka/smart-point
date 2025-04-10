@@ -1,9 +1,5 @@
 import { styled, alpha } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import Container from '@mui/material/Container';
-import Divider from '@mui/material/Divider';
+import { AppBar, Box, Container, Divider, Toolbar } from '@mui/material';
 import ColorModeIconDropdown from '../../theme/ColorModeIconDropdown';
 import { Logo } from '../logo/Logo';
 import { DesktopNavigation, MobileNavigation } from './components';
@@ -61,9 +57,7 @@ export const Header = () => {
 					<Box sx={{ display: { xs: 'flex', md: 'none' }, gap: 1 }}>
 						<ColorModeIconDropdown size="medium" />
 						<Divider orientation="vertical" variant="middle" flexItem />
-						<MobileNavigation
-							handleLogoutButtonClick
-						/>
+						<MobileNavigation handleLogoutButtonClick />
 					</Box>
 				</StyledToolbar>
 			</Container>

@@ -1,13 +1,7 @@
 import { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import Divider from '@mui/material/Divider';
-import MenuIcon from '@mui/icons-material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import Drawer from '@mui/material/Drawer';
-import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import { Box, Button, IconButton, Divider, Drawer, MenuItem } from '@mui/material';
+import { Menu as MenuIcon, CloseRounded as CloseRoundedIcon } from '@mui/icons-material';
 import { Logo } from '../../../logo/Logo';
 import { MenuItemWithLink } from '../menu-item-with-link/MenuItemWithLink';
 
@@ -53,7 +47,9 @@ export const MobileNavigation = (handleLogoutButtonClick) => {
 						<Logo fullWidth />
 					</Box>
 					<Divider sx={{ my: 3 }} />
-					<MenuItemWithLink to={'/admin'}>Панель администратора</MenuItemWithLink>
+					<MenuItemWithLink to={'/admin'}>
+						Панель администратора
+					</MenuItemWithLink>
 					<MenuItemWithLink to={'/cart'}>Корзина</MenuItemWithLink>
 					<Divider sx={{ my: 3 }} />
 					<MenuItem>

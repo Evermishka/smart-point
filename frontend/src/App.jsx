@@ -1,7 +1,7 @@
 import { Routes, Route, Outlet } from 'react-router-dom';
 import { Box, Container, CssBaseline } from '@mui/material';
 import AppTheme from './theme/AppTheme';
-import { Registration } from './pages';
+import { Authorization, Registration } from './pages';
 import { Footer, Header } from './components';
 import { ROUTE } from './constants';
 
@@ -15,7 +15,7 @@ export const App = (props) => {
 					<Routes>
 						<Route path={ROUTE.MAIN} element={<div>Main</div>} />
 						<Route path={ROUTE.PRODUCT} element={<div>Product</div>} />
-						<Route path={ROUTE.LOGIN} element={<div>Authorization</div>} />
+						<Route path={ROUTE.LOGIN} element={<Authorization />} />
 						<Route path={ROUTE.REGISTER} element={<Registration />} />
 						<Route path={ROUTE.CART} element={<div>Cart</div>} />
 						<Route path={ROUTE.ADMIN} element={<div>Admin<Outlet/></div>}>

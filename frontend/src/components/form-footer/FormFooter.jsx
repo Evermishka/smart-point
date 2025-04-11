@@ -1,7 +1,7 @@
 import { Link as RouterLink } from 'react-router-dom';
 import { Box, Divider, Link as MuiLink, Typography } from '@mui/material';
 
-export const FormFooter = ({text, linkText, link}) => (
+export const FormFooter = ({text = '', linkText, link}) => (
 	<>
 		<Divider>
 			<Typography sx={{ color: 'text.secondary' }}>или</Typography>

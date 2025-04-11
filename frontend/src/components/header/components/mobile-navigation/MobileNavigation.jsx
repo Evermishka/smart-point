@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import { Box, Button, IconButton, Divider, Drawer, MenuItem } from '@mui/material';
+import { Box, Button, IconButton, Divider, Drawer, MenuItem, Typography } from '@mui/material';
 import { Menu as MenuIcon, CloseRounded as CloseRoundedIcon } from '@mui/icons-material';
 import { Logo } from '../../../logo/Logo';
 import { MenuItemWithLink } from '../menu-item-with-link/MenuItemWithLink';
 import { ROUTE } from '../../../../constants';
 
-export const MobileNavigation = (handleLogoutButtonClick) => {
+export const MobileNavigation = ({ handleLogoutButtonClick, isLoading }) => {
 	const [open, setOpen] = useState(false);
 
 	const toggleDrawer = (newOpen) => () => {
@@ -58,6 +58,12 @@ export const MobileNavigation = (handleLogoutButtonClick) => {
 							color="primary"
 							variant="outlined"
 							fullWidth
+							loading={isLoading}
+							loadingIndicator={
+								<Typography color="white" size={16}>
+									Один момент...
+								</Typography>
+							}
 							onClick={() => handleLogoutButtonClick()}
 						>
 							Выйти

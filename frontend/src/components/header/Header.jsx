@@ -1,8 +1,12 @@
+import { useDispatch } from 'react-redux';
 import { styled, alpha } from '@mui/material/styles';
 import { AppBar, Box, Container, Divider, Toolbar } from '@mui/material';
 import ColorModeIconDropdown from '../../theme/ColorModeIconDropdown';
 import { Logo } from '../logo/Logo';
 import { DesktopNavigation, MobileNavigation } from './components';
+import { useRequestServer } from '../../hooks';
+import { API_ROUTE } from '../../constants';
+import { logout } from '../../actions';
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
 	display: 'flex',
@@ -21,7 +25,16 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
 }));
 
 export const Header = () => {
-	const handleLogoutButtonClick = () => {};
+	const { isLoading, setIsLoading, request } = useRequestServer();
+	const dispatch = useDispatch();
+
+	const handleLogoutButtonClick = () => {
+		request(API_ROUTE.LOGOUT, 'POST')
+			.then(() => {
+				dispatch(logout);
+			})
+			.finally(() => setIsLoading(false));
+	};
 
 	return (
 		<AppBar
@@ -50,6 +63,7 @@ export const Header = () => {
 					>
 						<DesktopNavigation
 							handleLogoutButtonClick={handleLogoutButtonClick}
+							isLoading={isLoading}
 						/>
 						<Divider orientation="vertical" variant="middle" flexItem />
 						<ColorModeIconDropdown />
@@ -57,7 +71,10 @@ export const Header = () => {
 					<Box sx={{ display: { xs: 'flex', md: 'none' }, gap: 1 }}>
 						<ColorModeIconDropdown size="medium" />
 						<Divider orientation="vertical" variant="middle" flexItem />
-						<MobileNavigation handleLogoutButtonClick />
+						<MobileNavigation
+							handleLogoutButtonClick={handleLogoutButtonClick}
+							isLoading={isLoading}
+						/>
 					</Box>
 				</StyledToolbar>
 			</Container>

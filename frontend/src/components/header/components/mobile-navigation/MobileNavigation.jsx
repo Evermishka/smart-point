@@ -4,6 +4,7 @@ import { Box, Button, IconButton, Divider, Drawer, MenuItem } from '@mui/materia
 import { Menu as MenuIcon, CloseRounded as CloseRoundedIcon } from '@mui/icons-material';
 import { Logo } from '../../../logo/Logo';
 import { MenuItemWithLink } from '../menu-item-with-link/MenuItemWithLink';
+import { ROUTE } from '../../../../constants';
 
 export const MobileNavigation = (handleLogoutButtonClick) => {
 	const [open, setOpen] = useState(false);
@@ -47,10 +48,10 @@ export const MobileNavigation = (handleLogoutButtonClick) => {
 						<Logo fullWidth />
 					</Box>
 					<Divider sx={{ my: 3 }} />
-					<MenuItemWithLink to={'/admin'}>
+					<MenuItemWithLink to={ROUTE.ADMIN}>
 						Панель администратора
 					</MenuItemWithLink>
-					<MenuItemWithLink to={'/cart'}>Корзина</MenuItemWithLink>
+					<MenuItemWithLink to={ROUTE.CART}>Корзина</MenuItemWithLink>
 					<Divider sx={{ my: 3 }} />
 					<MenuItem>
 						<Button
@@ -68,7 +69,7 @@ export const MobileNavigation = (handleLogoutButtonClick) => {
 							variant="contained"
 							fullWidth
 							component={RouterLink}
-							to="/login"
+							to={ROUTE.LOGIN}
 						>
 							Войти
 						</Button>
@@ -79,7 +80,7 @@ export const MobileNavigation = (handleLogoutButtonClick) => {
 							variant="outlined"
 							fullWidth
 							component={RouterLink}
-							to="/register"
+							to={ROUTE.REGISTER}
 						>
 							Зарегистрироваться
 						</Button>

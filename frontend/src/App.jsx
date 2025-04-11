@@ -1,8 +1,9 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Outlet } from 'react-router-dom';
 import { Box, Container, CssBaseline } from '@mui/material';
 import AppTheme from './theme/AppTheme';
 import { Registration } from './pages';
 import { Footer, Header } from './components';
+import { ROUTE } from './constants';
 
 export const App = (props) => {
 	return (
@@ -12,28 +13,28 @@ export const App = (props) => {
 				<Header />
 				<Container maxWidth="lg" sx={{ flexGrow: 1, mt: 11, py: 5 }}>
 					<Routes>
-						<Route path="/" element={<div>Main</div>} />
-						<Route path="/:id" element={<div>Product</div>} />
-						<Route path="/login" element={<div>Authorization</div>} />
-						<Route path="/register" element={<Registration />} />
-						<Route path="/cart" element={<div>Cart</div>} />
-						<Route path="/admin" element={<div>Admin</div>}>
+						<Route path={ROUTE.MAIN} element={<div>Main</div>} />
+						<Route path={ROUTE.PRODUCT} element={<div>Product</div>} />
+						<Route path={ROUTE.LOGIN} element={<div>Authorization</div>} />
+						<Route path={ROUTE.REGISTER} element={<Registration />} />
+						<Route path={ROUTE.CART} element={<div>Cart</div>} />
+						<Route path={ROUTE.ADMIN} element={<div>Admin<Outlet/></div>}>
 							<Route
-								path="categories"
+								path={ROUTE.CATEGORIES}
 								element={<div>Categories edit</div>}
 							/>
 							<Route
-								path="categories/:id"
-								element={<div>Category admin</div>}
+								path={ROUTE.CATEGORY_ADD}
+								element={<div>Category add</div>}
 							/>
 							<Route
-								path="categories/:id/edit"
+								path={ROUTE.CATEGORY_EDIT}
 								element={<div>Category edit</div>}
 							/>
-							<Route path="products" element={<div>Products admin</div>} />
-							<Route path="products/:id" element={<div>Product add</div>} />
+							<Route path={ROUTE.PRODUCTS} element={<div>Products admin</div>} />
+							<Route path={ROUTE.PRODUCT_ADD} element={<div>Product add</div>} />
 							<Route
-								path="products/:id/edit"
+								path={ROUTE.PRODUCT_EDIT}
 								element={<div>Product edit</div>}
 							/>
 						</Route>

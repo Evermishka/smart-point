@@ -14,7 +14,7 @@ import { regFormSchema } from './components';
 import { useRequestServer } from '../../hooks';
 import { setUser } from '../../actions/set-user';
 import { selectUserRole } from '../../selectors';
-import { API_ROUTE, ROLE } from '../../constants';
+import { API_ROUTE, ROLE, ROUTE } from '../../constants';
 
 export const Registration = () => {
 	const {
@@ -45,7 +45,7 @@ export const Registration = () => {
 	};
 
 	if (roleId !== ROLE.GUEST) {
-		return <Navigate to="/" />;
+		return <Navigate to={ROUTE.MAIN} />;
 	}
 
 	return (
@@ -119,7 +119,7 @@ export const Registration = () => {
 				></FormSubmitButton>
 			</Box>
 			{serverError && <FormServerErrorText serverError={serverError} />}
-			<FormFooter text={'Уже есть аккаунт? '} linkText={'Войти'} link={'/login'} />
+			<FormFooter text={'Уже есть аккаунт? '} linkText={'Войти'} link={ROUTE.LOGIN} />
 		</FormContainer>
 	);
 };

@@ -4,14 +4,15 @@ import {
 	ShoppingCart as ShoppingCartIcon,
 	Dashboard as DashboardIcon,
 } from '@mui/icons-material';
+import { ROUTE } from '../../../../constants';
 
 export const DesktopNavigation = (handleLogoutButtonClick) => {
 	return (
 		<>
-			<IconButton aria-label="Admin button" component={RouterLink} to="/admin">
+			<IconButton aria-label="Admin button" component={RouterLink} to={ROUTE.ADMIN}>
 				<DashboardIcon />
 			</IconButton>
-			<IconButton aria-label="Cart button" component={RouterLink} to="/cart">
+			<IconButton aria-label="Cart button" component={RouterLink} to={ROUTE.CART}>
 				<ShoppingCartIcon />
 			</IconButton>
 			<Divider orientation="vertical" variant="middle" flexItem />
@@ -28,7 +29,7 @@ export const DesktopNavigation = (handleLogoutButtonClick) => {
 				variant="text"
 				size="small"
 				component={RouterLink}
-				to="/login"
+				to={ROUTE.LOGIN}
 			>
 				Войти
 			</Button>
@@ -37,7 +38,7 @@ export const DesktopNavigation = (handleLogoutButtonClick) => {
 				variant="contained"
 				size="small"
 				component={RouterLink}
-				to="/register"
+				to={ROUTE.REGISTER}
 			>
 				Зарегистрироваться
 			</Button>

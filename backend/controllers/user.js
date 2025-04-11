@@ -12,11 +12,17 @@ async function register(login, password) {
 
   const passwordHash = await bcrypt.hash(password, 10);
 
-  
-  const user = await User.create({ login, password: passwordHash });
-  const token = generate({ id: user.id });
-
-  return { user, token };
+  try {
+    const user = await User.create({ login, password: passwordHash });
+    const token = generate({ id: user.id });
+    return { user, token };
+  } catch (error) {    
+    if (error.name === "MongoServerError" && error.code === 11000) {      
+      throw new Error("Такой логин уже существует.");
+    } else {
+      throw new Error(error);
+    }
+  }
 }
 
 // login
@@ -41,7 +47,7 @@ async function login(login, password) {
     populate: {
       path: "items",
       populate: "product",
-    }
+    },
   });
 
   return { token, user };

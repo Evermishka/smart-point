@@ -27,9 +27,9 @@ export const SiteMarkIcon = () => {
 				<text
 					x="22"
 					y="16"
-					font-size="16"
-					font-family="Roboto, sans-serif"
-					font-weight="bold"
+					fontSize="16"
+					fontFamily="Roboto, sans-serif"
+					fontWeight="bold"
 					fill="#4876EE"
 				>
 					SmartPoint

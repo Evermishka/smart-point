@@ -7,7 +7,7 @@ export const FormSubmitButton = ({ isLoading, buttonText }) => (
 		variant="contained"
 		loading={isLoading}
 		loadingIndicator={
-			<Typography color="white" size={16}>
+			<Typography color="primary" size={16}>
 				Один момент...
 			</Typography>
 		}

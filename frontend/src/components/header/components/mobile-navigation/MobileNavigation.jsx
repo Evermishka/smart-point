@@ -1,13 +1,27 @@
 import { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import { Box, Button, IconButton, Divider, Drawer, MenuItem, Typography } from '@mui/material';
+import { useSelector } from 'react-redux';
+import {
+	Box,
+	Button,
+	IconButton,
+	Divider,
+	Drawer,
+	MenuItem,
+	Typography,
+} from '@mui/material';
 import { Menu as MenuIcon, CloseRounded as CloseRoundedIcon } from '@mui/icons-material';
 import { Logo } from '../../../logo/Logo';
 import { MenuItemWithLink } from '../menu-item-with-link/MenuItemWithLink';
-import { ROUTE } from '../../../../constants';
+import { checkAccess } from '../../../../utils';
+import { selectUserRole } from '../../../../selectors';
+import { ROLE, ROUTE } from '../../../../constants';
 
 export const MobileNavigation = ({ handleLogoutButtonClick, isLoading }) => {
 	const [open, setOpen] = useState(false);
+	const roleId = useSelector(selectUserRole);
+
+	const isAdmin = checkAccess([ROLE.ADMIN], roleId);
 
 	const toggleDrawer = (newOpen) => () => {
 		setOpen(newOpen);
@@ -48,49 +62,58 @@ export const MobileNavigation = ({ handleLogoutButtonClick, isLoading }) => {
 						<Logo fullWidth />
 					</Box>
 					<Divider sx={{ my: 3 }} />
-					<MenuItemWithLink to={ROUTE.ADMIN}>
-						Панель администратора
-					</MenuItemWithLink>
-					<MenuItemWithLink to={ROUTE.CART}>Корзина</MenuItemWithLink>
-					<Divider sx={{ my: 3 }} />
-					<MenuItem>
-						<Button
-							color="primary"
-							variant="outlined"
-							fullWidth
-							loading={isLoading}
-							loadingIndicator={
-								<Typography color="white" size={16}>
-									Один момент...
-								</Typography>
-							}
-							onClick={() => handleLogoutButtonClick()}
-						>
-							Выйти
-						</Button>
-					</MenuItem>
-					<MenuItem>
-						<Button
-							color="primary"
-							variant="contained"
-							fullWidth
-							component={RouterLink}
-							to={ROUTE.LOGIN}
-						>
-							Войти
-						</Button>
-					</MenuItem>
-					<MenuItem>
-						<Button
-							color="primary"
-							variant="outlined"
-							fullWidth
-							component={RouterLink}
-							to={ROUTE.REGISTER}
-						>
-							Зарегистрироваться
-						</Button>
-					</MenuItem>
+					{roleId === ROLE.GUEST ? (
+						<>
+							<MenuItem>
+								<Button
+									color="primary"
+									variant="contained"
+									fullWidth
+									component={RouterLink}
+									to={ROUTE.LOGIN}
+								>
+									Войти
+								</Button>
+							</MenuItem>
+							<MenuItem>
+								<Button
+									color="primary"
+									variant="outlined"
+									fullWidth
+									component={RouterLink}
+									to={ROUTE.REGISTER}
+								>
+									Зарегистрироваться
+								</Button>
+							</MenuItem>
+						</>
+					) : (
+						<>
+							{isAdmin && (
+								<MenuItemWithLink to={ROUTE.ADMIN}>
+									Панель администратора
+								</MenuItemWithLink>
+							)}
+							<MenuItemWithLink to={ROUTE.CART}>Корзина</MenuItemWithLink>
+							<Divider sx={{ my: 3 }} />
+							<MenuItem>
+								<Button
+									color="primary"
+									variant="outlined"
+									fullWidth
+									loading={isLoading}
+									loadingIndicator={
+										<Typography size={16}>
+											Один момент...
+										</Typography>
+									}
+									onClick={() => handleLogoutButtonClick()}
+								>
+									Выйти
+								</Button>
+							</MenuItem>
+						</>
+					)}
 				</Box>
 			</Drawer>
 		</>

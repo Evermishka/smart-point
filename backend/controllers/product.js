@@ -1,4 +1,5 @@
 const Product = require("../models/Product");
+const { PAGINATION_LIMIT } = require("../constants/pagination-limit");
 
 // add
 
@@ -35,7 +36,7 @@ async function getProducts(
   category,
   sort_by,
   order = "asc",
-  limit = 10,
+  limit = PAGINATION_LIMIT,
   page = 1
 ) {
   const findOptions = category

@@ -1,23 +1,35 @@
 import { useEffect, useState } from 'react';
-import { Box, Grid } from '@mui/system';
-import { Loader } from '../../components';
+import { Grid } from '@mui/material';
+import { DrawerMenu, Loader } from '../../components';
+import { CategoriesList, ProductsList } from './components';
 import { useRequestServer } from '../../hooks';
 import { API_ROUTE } from '../../constants';
-import { ProductsList } from './components';
 
 export const Main = () => {
 	const [products, setProducts] = useState([]);
+	const [categories, setCategories] = useState([]);
 
 	const { isLoading, setIsLoading, request } = useRequestServer();
 
 	useEffect(() => {
-		request(API_ROUTE.PRODUCTS, 'GET').then(({ data }) => {
-			setProducts(data.products);
-			console.log('products', data.products);
-		})
-		.finally(() => setIsLoading(false));
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+		Promise.all([
+			request(API_ROUTE.PRODUCTS, 'GET'),
+			request(API_ROUTE.CATEGORIES, 'GET'),
+		])
+			.then(
+				([
+					{
+						data: { lastPage, products },
+					},
+					{ data: categories },
+				]) => {
+					setProducts(products);
+					setCategories(categories);
+				},
+			)
+			.finally(() => setIsLoading(false));
+	
+	}, [request, setIsLoading]);
 
 	return (
 		<Grid container spacing={2} sx={{ display: 'flex', flexGrow: 1 }}>
@@ -25,8 +37,19 @@ export const Main = () => {
 				<Loader />
 			) : (
 				<>
-					<Grid size={{ xs: 0, md: 3, flexGrow: 1 }}>
-						<div>CategoryList</div>
+					<Grid
+						size={3}
+						sx={{
+							display: { xs: 'none', md: 'flex' },
+							gap: 1,
+						}}
+					>
+						<CategoriesList categories={categories} />
+					</Grid>
+					<Grid size={12} sx={{ display: { xs: 'flex', md: 'none' }, gap: 1 }}>
+						<DrawerMenu openButtonText="Список категорий">
+							<CategoriesList categories={categories} />
+						</DrawerMenu>
 					</Grid>
 					<Grid size={{ xs: 12, md: 9 }} sx={{ display: 'flex' }}>
 						<ProductsList products={products} />

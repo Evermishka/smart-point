@@ -8,13 +8,14 @@ const {
 const authenticated = require("../middlewares/authenticated");
 const hasRole = require("../middlewares/hasRole");
 const ROLES = require("../constants/roles");
+const mapCategory = require("../helpers/mapCategory");
 
 const router = express.Router({ mergeParams: true });
 
 router.get("/", async (req, res) => {
   const categories = await getCategories();
 
-  res.send({ data: categories });
+  res.send({ data: categories.map(mapCategory) });
 });
 
 router.post("/", authenticated, hasRole([ROLES.ADMIN]), async (req, res) => {
@@ -22,7 +23,7 @@ router.post("/", authenticated, hasRole([ROLES.ADMIN]), async (req, res) => {
     title: req.body.title
   });
 
-  res.send({ data: newCategory });
+  res.send({ data: mapCategory(newCategory) });
 });
 
 router.patch(
@@ -34,7 +35,7 @@ router.patch(
       title: req.body.title
     });
 
-    res.send({ data: updatedCategory });
+    res.send({ data: mapCategory(updatedCategory) });
   }
 );
 

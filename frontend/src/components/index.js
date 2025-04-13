@@ -1,3 +1,4 @@
+export * from './drawer-menu/DrawerMenu';
 export * from './footer/Footer';
 export * from './form-container/FormContainer';
 export * from './form-footer/FormFooter';

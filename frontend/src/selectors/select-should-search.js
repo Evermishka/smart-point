@@ -1,0 +1,1 @@
+export const selectShouldSearch = ({ app }) => app.shouldSearch;

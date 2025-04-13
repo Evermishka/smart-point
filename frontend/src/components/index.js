@@ -7,3 +7,4 @@ export * from './form-submit-button/FormSubmitButton';
 export * from './header/Header';
 export * from './loader/Loader';
 export * from './logo/Logo';
+export * from './search/Search';

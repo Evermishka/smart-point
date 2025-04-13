@@ -1,7 +1,7 @@
 import { Routes, Route, Outlet } from 'react-router-dom';
 import { Box, Container, CssBaseline } from '@mui/material';
 import AppTheme from './theme/AppTheme';
-import { Authorization, Registration } from './pages';
+import { Authorization, Main, Registration } from './pages';
 import { Footer, Header } from './components';
 import { ROUTE } from './constants';
 
@@ -11,9 +11,9 @@ export const App = (props) => {
 			<Box sx={{ display: 'flex', minHeight: '100vh', flexDirection: 'column' }}>
 				<CssBaseline enableColorScheme />
 				<Header />
-				<Container maxWidth="lg" sx={{ flexGrow: 1, mt: 11, py: 5 }}>
+				<Container maxWidth="lg" sx={{ display: 'flex', flexGrow: 1, mt: 11, py: 5 }}>
 					<Routes>
-						<Route path={ROUTE.MAIN} element={<div>Main</div>} />
+						<Route path={ROUTE.MAIN} element={<Main />} />
 						<Route path={`${ROUTE.MAIN}/:id`} element={<div>Product</div>} />
 						<Route path={ROUTE.LOGIN} element={<Authorization />} />
 						<Route path={ROUTE.REGISTER} element={<Registration />} />

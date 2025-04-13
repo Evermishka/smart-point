@@ -14,17 +14,17 @@ const mapProduct = require("../helpers/mapProduct");
 const router = express.Router({ mergeParams: true });
 
 router.get("/", async (req, res) => {
-    const { products, lastPage } = await getProducts(
-      req.query.search,
-      req.query.category,
-      req.query.sort_by,
-      req.query.order,
-      req.query.limit,
-      req.query.page
-    );
-  
-    res.send({ data: { lastPage, products } });
-  });
+  const { products, lastPage } = await getProducts(
+    req.query.search,
+    req.query.category,
+    req.query.sort_by,
+    req.query.order,
+    req.query.limit,
+    req.query.page
+  );
+
+  res.send({ data: { lastPage, products: products.map(mapProduct)} });
+});
 
 router.get("/:id", async (req, res) => {
   const product = await getProduct(req.params.id);

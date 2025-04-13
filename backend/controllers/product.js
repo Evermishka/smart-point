@@ -34,7 +34,7 @@ async function getProducts(
   search = "",
   category,
   sort_by,
-  order,
+  order = "asc",
   limit = 10,
   page = 1
 ) {

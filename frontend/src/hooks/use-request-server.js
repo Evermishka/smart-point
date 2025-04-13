@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 export const useRequestServer = () => {
 	const [isLoading, setIsLoading] = useState(false);
 
-	const request = (url, method, data) => {
+	const request = useCallback((url, method, data) => {
 		setIsLoading(true);
 
 		return fetch(url, {
@@ -14,7 +14,7 @@ export const useRequestServer = () => {
 			body: data ? JSON.stringify(data) : undefined,
 		})
 			.then((res) => res.json());
-	};
+	}, []);
 
 	return { isLoading, setIsLoading, request };
 };

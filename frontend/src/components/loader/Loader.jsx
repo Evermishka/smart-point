@@ -1,5 +1,4 @@
-import { Box } from '@mui/system';
-import { LinearProgress } from '@mui/material';
+import { Box, LinearProgress } from '@mui/material';
 
 export const Loader = () => (
 	<Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>

@@ -12,7 +12,7 @@ import {
 import { transformPrice } from '../../../../utils';
 
 export const ProductCard = ({ product }) => {
-	const { id, title, imagePreview, price } = product;
+	const { title, imagePreview, price } = product;
 
 	return (
 		<Grid size={{ xs: 6, sm: 4, md: 3 }} sx={{ display: 'flex' }}>

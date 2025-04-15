@@ -1,13 +1,19 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Box, Grid, Typography } from '@mui/material';
 import { DrawerMenu, Loader, Pagination, Search } from '../../components';
 import { CategoriesList, ProductsList } from './components';
 import { useRequestServer } from '../../hooks';
 import { getParams } from '../../utils';
-import { selectCategory, selectPage, selectSearchPhrase, selectShouldSearch } from '../../selectors';
-import { API_ROUTE } from '../../constants';
+import {
+	selectCategory,
+	selectPage,
+	selectSearchPhrase,
+	selectShouldSearch,
+} from '../../selectors';
+import { API_ROUTE, DEFAULT_CATEGORY } from '../../constants';
+import { setCategory, setPage, setSearchPhrase } from '../../actions';
 
 export const Main = () => {
 	const [products, setProducts] = useState([]);
@@ -19,18 +25,16 @@ export const Main = () => {
 	const shouldSearch = useSelector(selectShouldSearch);
 
 	const { isLoading, setIsLoading, request } = useRequestServer();
-	const navigate = useNavigate();	
+	const navigate = useNavigate();
+	const dispatch = useDispatch();
 
 	useEffect(() => {
-		const params = getParams({page, searchPhrase, currentCategory});
+		const params = getParams({ page, searchPhrase, currentCategory });
 
 		navigate(`/?${params.toString()}`);
 
 		Promise.all([
-			request(
-				`${API_ROUTE.PRODUCTS}?${params}`,
-				'GET',
-			),
+			request(`${API_ROUTE.PRODUCTS}?${params}`, 'GET'),
 			request(API_ROUTE.CATEGORIES, 'GET'),
 		])
 			.then(
@@ -48,6 +52,14 @@ export const Main = () => {
 			.finally(() => setIsLoading(false));
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [shouldSearch, currentCategory, page]);
+
+	useEffect(() => {
+		return () => {
+			dispatch(setPage(1));
+			dispatch(setSearchPhrase(''));
+			dispatch(setCategory(DEFAULT_CATEGORY.id));
+		};
+	}, [dispatch]);
 
 	return (
 		<Box sx={{ display: 'flex', flexGrow: 1, flexDirection: 'column' }}>

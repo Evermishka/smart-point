@@ -6,9 +6,6 @@ import { selectPage } from '../../selectors';
 export const Pagination = ({lastPage}) => {
 	const page = useSelector(selectPage);
 
-	console.log('page', page)
-	console.log('lastPage', lastPage)
-
 	const dispatch = useDispatch();
 
 	const handlePaginationChange = (event, value) => {

@@ -11,7 +11,7 @@ export const App = (props) => {
 			<Box sx={{ display: 'flex', minHeight: '100vh', flexDirection: 'column' }}>
 				<CssBaseline enableColorScheme />
 				<Header />
-				<Container maxWidth="lg" sx={{ display: 'flex', flexGrow: 1, mt: 11, py: 5 }}>
+				<Container maxWidth="lg" sx={{ display: 'flex', justifyContent: 'center', flexGrow: 1, mt: 11, py: 5 }}>
 					<Routes>
 						<Route path={ROUTE.MAIN} element={<Main />} />
 						<Route path={`${ROUTE.MAIN}/:id`} element={<div>Product</div>} />

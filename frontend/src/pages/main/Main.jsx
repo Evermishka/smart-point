@@ -5,30 +5,26 @@ import { Box, Grid, Pagination, Stack, Typography } from '@mui/material';
 import { DrawerMenu, Loader, Search } from '../../components';
 import { CategoriesList, ProductsList } from './components';
 import { useRequestServer } from '../../hooks';
-import { selectPage, selectSearchPhrase, selectShouldSearch } from '../../selectors';
-import { API_ROUTE, DEFAULT_CATEGORY } from '../../constants';
-import { setPage } from '../../actions';
+import { getParams } from '../../utils';
+import { setCategory, setPage, setSearchPhrase } from '../../actions';
+import { selectCategory, selectPage, selectSearchPhrase, selectShouldSearch } from '../../selectors';
+import { API_ROUTE } from '../../constants';
 
 export const Main = () => {
 	const [products, setProducts] = useState([]);
 	const [categories, setCategories] = useState([]);
 	const page = useSelector(selectPage);
 	const [lastPage, setLastPage] = useState(1);
-	const [currentCategory, setCurrentCategory] = useState(DEFAULT_CATEGORY.id);
+	const currentCategory = useSelector(selectCategory);
 	const searchPhrase = useSelector(selectSearchPhrase);
 	const shouldSearch = useSelector(selectShouldSearch);
+
 	const { isLoading, setIsLoading, request } = useRequestServer();
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		const params = new URLSearchParams({
-			page: page,
-		});
-
-		if (searchPhrase) params.append('search', searchPhrase)
-
-		if (currentCategory !== DEFAULT_CATEGORY.id) params.append('category', currentCategory)
+		const params = getParams({page, searchPhrase, currentCategory});
 
 		navigate(`/?${params.toString()}`);
 
@@ -53,10 +49,12 @@ export const Main = () => {
 			)
 			.finally(() => setIsLoading(false));
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [shouldSearch, page]);
+	}, [shouldSearch, currentCategory, page]);
 
-	const handleCategoryChange = (event) => {
-		console.log('event', event.target)
+	const handleCategoryChange = (event, id) => {
+		dispatch(setPage(1));
+		dispatch(setSearchPhrase(''));	
+		dispatch(setCategory(id));
 	}
 
 	const handlePaginationChange = (event, value) => {
@@ -117,7 +115,7 @@ export const Main = () => {
 									}}
 								>
 									<Typography sx={{ fontSize: 24 }}>
-										Товаров нет в наличии
+										Товаров не найдено
 									</Typography>
 								</Box>
 							)}

@@ -1,13 +1,25 @@
 import { ACTION_TYPE } from '../actions';
+import { DEFAULT_CATEGORY } from '../constants';
 
 const initialAppState = {
+	category: DEFAULT_CATEGORY.id,
+	page: 1,
 	searchPhrase: '',
 	shouldSearch: false,
-	page: 1,
 };
 
 export const appReducer = (state = initialAppState, action) => {
 	switch (action.type) {
+		case ACTION_TYPE.SET_CATEGORY:
+			return {
+				...state,
+				category: action.payload,
+			};
+		case ACTION_TYPE.SET_PAGE:
+			return {
+				...state,
+				page: action.payload,
+			};
 		case ACTION_TYPE.SET_SEARCH_PHRASE:
 			return {
 				...state,
@@ -17,11 +29,6 @@ export const appReducer = (state = initialAppState, action) => {
 			return {
 				...state,
 				shouldSearch: !state.shouldSearch,
-			};
-		case ACTION_TYPE.SET_PAGE:
-			return {
-				...state,
-				page: action.payload,
 			};
 		default:
 			return state;

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Box, Grid, Typography } from '@mui/material';
-import { DrawerMenu, Loader, Pagination, Search } from '../../components';
+import { DrawerMenu, Loader, Pagination, Search, Sorting } from '../../components';
 import { CategoriesList, ProductsList } from './components';
 import { useRequestServer } from '../../hooks';
 import { getParams } from '../../utils';
@@ -11,9 +11,10 @@ import {
 	selectPage,
 	selectSearchPhrase,
 	selectShouldSearch,
+	selectSorting,
 } from '../../selectors';
-import { API_ROUTE, DEFAULT_CATEGORY } from '../../constants';
-import { setCategory, setPage, setSearchPhrase } from '../../actions';
+import { API_ROUTE, SORT_BY_PRICE } from '../../constants';
+import { resetSearchFilters } from '../../actions';
 
 export const Main = () => {
 	const [products, setProducts] = useState([]);
@@ -23,13 +24,14 @@ export const Main = () => {
 	const currentCategory = useSelector(selectCategory);
 	const searchPhrase = useSelector(selectSearchPhrase);
 	const shouldSearch = useSelector(selectShouldSearch);
+	const { sortBy, order } = useSelector(selectSorting);
 
 	const { isLoading, setIsLoading, request } = useRequestServer();
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		const params = getParams({ page, searchPhrase, currentCategory });
+		const params = getParams({ page, searchPhrase, currentCategory, sortBy, order });
 
 		navigate(`/?${params.toString()}`);
 
@@ -51,13 +53,11 @@ export const Main = () => {
 			)
 			.finally(() => setIsLoading(false));
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [shouldSearch, currentCategory, page]);
+	}, [shouldSearch, currentCategory, page, order]);
 
 	useEffect(() => {
 		return () => {
-			dispatch(setPage(1));
-			dispatch(setSearchPhrase(''));
-			dispatch(setCategory(DEFAULT_CATEGORY.id));
+			dispatch(resetSearchFilters);
 		};
 	}, [dispatch]);
 
@@ -80,11 +80,12 @@ export const Main = () => {
 						</Grid>
 						<Grid
 							size={12}
-							sx={{ display: { xs: 'flex', md: 'none' }, gap: 1 }}
+							sx={{ display: { xs: 'flex', md: 'none' }, justifyContent: 'space-between', gap: 1 }}
 						>
 							<DrawerMenu openButtonText="Список категорий">
 								<CategoriesList categories={categories} />
 							</DrawerMenu>
+							<Sorting sortOptions={SORT_BY_PRICE} />
 						</Grid>
 						<Grid
 							size={{ xs: 12, md: 9 }}
@@ -97,6 +98,16 @@ export const Main = () => {
 						>
 							{products.length !== 0 ? (
 								<>
+									<Box
+										sx={{
+											display: {
+												xs: 'none',
+												md: 'block',
+											},
+										}}
+									>
+										<Sorting sortOptions={SORT_BY_PRICE} />
+									</Box>
 									<ProductsList products={products} />
 									<Pagination lastPage={lastPage} />
 								</>

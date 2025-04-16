@@ -3,8 +3,7 @@ import { Search as SearchIcon } from '@mui/icons-material';
 import { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectSearchPhrase } from '../../selectors';
-import { setCategory, setPage, setSearchPhrase, setShouldSearch } from '../../actions';
-import { DEFAULT_CATEGORY } from '../../constants';
+import { resetSearchFilters, setSearchPhrase, setShouldSearch } from '../../actions';
 
 export const Search = () => {
 	const searchPhrase = useSelector(selectSearchPhrase);
@@ -16,8 +15,7 @@ export const Search = () => {
 	);
 
 	const handleSearch = ({ target }) => {
-		dispatch(setPage(1));
-		dispatch(setCategory(DEFAULT_CATEGORY.id));
+		dispatch(resetSearchFilters);
 		dispatch(setSearchPhrase(target.value));
 		startDelayedSearch();
 	};

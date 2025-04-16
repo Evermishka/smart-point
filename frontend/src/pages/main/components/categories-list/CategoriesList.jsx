@@ -2,7 +2,7 @@ import { List, Stack } from '@mui/material';
 import { CategoryItem } from '../category-item/CategoryItem';
 import { DEFAULT_CATEGORY } from '../../../../constants';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCategory, setPage, setSearchPhrase } from '../../../../actions';
+import { resetSearchFilters, setCategory } from '../../../../actions';
 import { selectCategory } from '../../../../selectors';
 
 export const CategoriesList = ({ categories }) => {
@@ -11,8 +11,7 @@ export const CategoriesList = ({ categories }) => {
 	const dispatch = useDispatch();
 
 	const handleCategoryChange = (event, id) => {
-		dispatch(setPage(1));
-		dispatch(setSearchPhrase(''));
+		dispatch(resetSearchFilters);
 		dispatch(setCategory(id));
 	};
 	

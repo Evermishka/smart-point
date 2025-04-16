@@ -9,3 +9,4 @@ export * from './loader/Loader';
 export * from './logo/Logo';
 export * from './pagination/Pagination';
 export * from './search/Search';
+export * from './sorting/Sorting';

@@ -1,0 +1,1 @@
+export const selectSorting = ({ app }) => app.sorting;

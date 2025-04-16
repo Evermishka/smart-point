@@ -6,10 +6,21 @@ const initialAppState = {
 	page: 1,
 	searchPhrase: '',
 	shouldSearch: false,
+	sorting: {
+		sortBy: '',
+		order: '',
+	},
 };
 
 export const appReducer = (state = initialAppState, action) => {
 	switch (action.type) {
+		case ACTION_TYPE.RESET_SEARCH_FILTERS:
+			return {
+				...state,
+				category: DEFAULT_CATEGORY.id,
+				page: 1,
+				searchPhrase: '',
+			};
 		case ACTION_TYPE.SET_CATEGORY:
 			return {
 				...state,
@@ -29,6 +40,15 @@ export const appReducer = (state = initialAppState, action) => {
 			return {
 				...state,
 				shouldSearch: !state.shouldSearch,
+			};
+		case ACTION_TYPE.SET_SORTING:
+			return {
+				...state,
+				sorting: {
+					...state.sorting,
+					sortBy: action.payload.sortBy,
+					order: action.payload.order,
+				},
 			};
 		default:
 			return state;

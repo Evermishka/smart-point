@@ -5,23 +5,27 @@ import { CloseRounded as CloseRoundedIcon, Menu as MenuIcon } from '@mui/icons-m
 export const DrawerMenu = ({ children, openButtonText = '' }) => {
 	const [open, setOpen] = useState(false);
 
-	const toggleDrawer = (newOpen) => () => {
-		setOpen(newOpen);
+	const openDrawer = () => {
+		setOpen(true);
+	};
+
+	const closeDrawer = () => {
+		setOpen(false);
 	};
 
 	return (
 		<>
 			{openButtonText ? (
-				<Button onClick={toggleDrawer(true)}>{openButtonText}</Button>
+				<Button onClick={openDrawer}>{openButtonText}</Button>
 			) : (
-				<IconButton aria-label="Menu button" onClick={toggleDrawer(true)}>
+				<IconButton aria-label="Menu button" onClick={openDrawer}>
 					<MenuIcon />
 				</IconButton>
 			)}
 			<Drawer
 				anchor="top"
 				open={open}
-				onClose={toggleDrawer(false)}
+				onClose={closeDrawer}
 				PaperProps={{
 					sx: {
 						top: 'var(--template-frame-height, 0px)',
@@ -35,11 +39,11 @@ export const DrawerMenu = ({ children, openButtonText = '' }) => {
 							justifyContent: 'flex-end',
 						}}
 					>
-						<IconButton onClick={toggleDrawer(false)}>
+						<IconButton onClick={closeDrawer}>
 							<CloseRoundedIcon />
 						</IconButton>
 					</Box>
-					{children}
+					{typeof children === 'function' ? children(closeDrawer): children}
 				</Box>
 			</Drawer>
 		</>

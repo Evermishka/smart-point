@@ -4,6 +4,7 @@ import { AppBar, Box, Container, Divider, Toolbar } from '@mui/material';
 import ColorModeIconDropdown from '../../theme/ColorModeIconDropdown';
 import { Logo } from '../logo/Logo';
 import { DesktopNavigation, MobileNavigation } from './components';
+import { DrawerMenu } from '../drawer-menu/DrawerMenu';
 import { useRequestServer } from '../../hooks';
 import { API_ROUTE } from '../../constants';
 import { logout } from '../../actions';
@@ -71,10 +72,15 @@ export const Header = () => {
 					<Box sx={{ display: { xs: 'flex', md: 'none' }, gap: 1 }}>
 						<ColorModeIconDropdown size="medium" />
 						<Divider orientation="vertical" variant="middle" flexItem />
-						<MobileNavigation
-							handleLogoutButtonClick={handleLogoutButtonClick}
-							isLoading={isLoading}
-						/>
+						<DrawerMenu>
+							{(closeDrawer) => (
+								<MobileNavigation
+									closeDrawer={closeDrawer}
+									handleLogoutButtonClick={handleLogoutButtonClick}
+									isLoading={isLoading}
+								/>
+							)}
+						</DrawerMenu>
 					</Box>
 				</StyledToolbar>
 			</Container>

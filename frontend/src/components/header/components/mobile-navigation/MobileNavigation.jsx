@@ -12,38 +12,40 @@ import { MenuItemWithLink } from '../menu-item-with-link/MenuItemWithLink';
 import { checkAccess } from '../../../../utils';
 import { selectUserRole } from '../../../../selectors';
 import { ROLE, ROUTE } from '../../../../constants';
-import { DrawerMenu } from '../../../drawer-menu/DrawerMenu';
 
-export const MobileNavigation = ({ handleLogoutButtonClick, isLoading }) => {
+export const MobileNavigation = ({ closeDrawer, handleLogoutButtonClick, isLoading }) => {
+
 	const roleId = useSelector(selectUserRole);
 
 	const isAdmin = checkAccess([ROLE.ADMIN], roleId);
 
 	return (
-		<DrawerMenu>
+		<>
 			<Box
 				sx={{
 					display: 'flex',
 					justifyContent: 'center',
 				}}
+				onClick={closeDrawer}
 			>
 				<Logo fullWidth />
 			</Box>
 			<Divider sx={{ my: 3 }} />
 			{roleId === ROLE.GUEST ? (
 				<>
-					<MenuItem>
+					<MenuItem onClick={closeDrawer}>
 						<Button
 							color="primary"
 							variant="contained"
 							fullWidth
 							component={RouterLink}
 							to={ROUTE.LOGIN}
+							
 						>
 							Войти
 						</Button>
 					</MenuItem>
-					<MenuItem>
+					<MenuItem onClick={closeDrawer}>
 						<Button
 							color="primary"
 							variant="outlined"
@@ -58,13 +60,13 @@ export const MobileNavigation = ({ handleLogoutButtonClick, isLoading }) => {
 			) : (
 				<>
 					{isAdmin && (
-						<MenuItemWithLink to={ROUTE.ADMIN}>
+						<MenuItemWithLink to={ROUTE.ADMIN} handleClick={closeDrawer}>
 							Панель администратора
 						</MenuItemWithLink>
 					)}
-					<MenuItemWithLink to={ROUTE.CART}>Корзина</MenuItemWithLink>
+					<MenuItemWithLink to={ROUTE.CART} handleClick={closeDrawer}>Корзина</MenuItemWithLink>
 					<Divider sx={{ my: 3 }} />
-					<MenuItem>
+					<MenuItem onClick={closeDrawer}>
 						<Button
 							color="primary"
 							variant="outlined"
@@ -80,6 +82,6 @@ export const MobileNavigation = ({ handleLogoutButtonClick, isLoading }) => {
 					</MenuItem>
 				</>
 			)}
-		</DrawerMenu>
+		</>
 	);
 };

@@ -31,7 +31,7 @@ export const Registration = () => {
 	const dispatch = useDispatch();
 	const roleId = useSelector(selectUserRole);
 
-	const onSubmit = ({ login, password }) => {
+	const submitHandler = ({ login, password }) => {
 		request(API_ROUTE.REGISTER, 'POST', { login, password })
 			.then(({ error, user }) => {
 				if (error) {
@@ -52,7 +52,7 @@ export const Registration = () => {
 		<FormContainer title={'Регистрация'}>
 			<Box
 				component="form"
-				onSubmit={handleSubmit(onSubmit)}
+				onSubmit={handleSubmit(submitHandler)}
 				sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
 			>
 				<Controller

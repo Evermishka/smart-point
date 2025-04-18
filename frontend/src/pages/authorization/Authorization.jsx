@@ -31,7 +31,7 @@ export const Authorization = () => {
 	const dispatch = useDispatch();
 	const roleId = useSelector(selectUserRole);
 
-	const onSubmit = ({ login, password }) => {
+	const submitHandler = ({ login, password }) => {
 		request(API_ROUTE.LOGIN, 'POST', { login, password })
 			.then(({ error, user }) => {
 				if (error) {
@@ -52,7 +52,7 @@ export const Authorization = () => {
 		<FormContainer title={'Авторизация'}>
 			<Box
 				component="form"
-				onSubmit={handleSubmit(onSubmit)}
+				onSubmit={handleSubmit(submitHandler)}
 				sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
 			>
 				<Controller

@@ -14,7 +14,6 @@ import { selectUserRole } from '../../../../selectors';
 import { ROLE, ROUTE } from '../../../../constants';
 
 export const MobileNavigation = ({ closeDrawer, handleLogoutButtonClick, isLoading }) => {
-
 	const roleId = useSelector(selectUserRole);
 
 	const isAdmin = checkAccess([ROLE.ADMIN], roleId);

@@ -11,7 +11,7 @@ export const Navigation = () => {
 	};
 
 	return (
-		<Stack sx={{ flexGrow: 1, justifyContent: 'space-between' }}>
+		<Stack sx={{ justifyContent: 'space-between' }}>
 			<List sx={{ px: 0 }}>
 				{ADMIN_NAVIGATION.map((item) => (
 					<NavigationItem

@@ -5,7 +5,11 @@ import { Navigation } from './components/navigation/Navigation';
 
 export const Admin = () => (
 	<Box sx={{ display: 'flex', flexGrow: 1, flexDirection: 'column' }}>
-		<Grid container spacing={2} sx={{ display: 'flex', flexGrow: 1 }}>
+		<Grid
+			container
+			spacing={2}
+			sx={{ display: 'flex', flexGrow: 1, justifyContent: 'flex-start' }}
+		>
 			<Grid
 				size={3}
 				sx={{
@@ -23,7 +27,7 @@ export const Admin = () => (
 					gap: 1,
 				}}
 			>
-				<DrawerMenu openButtonText="Список категорий">
+				<DrawerMenu openButtonText="Навигация">
 					<Navigation />
 				</DrawerMenu>
 			</Grid>

@@ -2,6 +2,7 @@ import { Routes, Route, Outlet, Navigate } from 'react-router-dom';
 import { Box, Container, CssBaseline } from '@mui/material';
 import AppTheme from './theme/AppTheme';
 import { Admin, Authorization, Main, Product, Registration } from './pages';
+import { AdminCategories } from './pages/admin/pages';
 import { Footer, Header } from './components';
 import { ROUTE } from './constants';
 
@@ -34,7 +35,7 @@ export const App = (props) => {
 							/>
 							<Route
 								path={ROUTE.ADMIN_CATEGORIES}
-								element={<div>Categories edit</div>}
+								element={<AdminCategories />}
 							/>
 							<Route
 								path={`${ROUTE.ADMIN_CATEGORIES}/:id`}

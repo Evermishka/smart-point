@@ -1,13 +1,21 @@
+import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { Box, Grid } from '@mui/material';
 import { DrawerMenu } from '../../components';
 import { Navigation } from './components/navigation/Navigation';
 
-export const Admin = () => (
-	<Box sx={{ display: 'flex', flexGrow: 1, flexDirection: 'column' }}>
+export const Admin = () => {
+	const [currentItem, setCurrentItem] = useState(0);
+
+	const handleCurrentItemChange = (itemId) => {
+		setCurrentItem(itemId);
+	};
+
+	return (	<Box sx={{ display: 'flex', flexGrow: 1, flexDirection: 'column' }}>
 		<Grid
 			container
 			spacing={2}
+			direction={{ xs: 'column', md: 'row' }}
 			sx={{ display: 'flex', flexGrow: 1, justifyContent: 'flex-start' }}
 		>
 			<Grid
@@ -17,17 +25,16 @@ export const Admin = () => (
 					gap: 1,
 				}}
 			>
-				<Navigation />
+				<Navigation currentItem={currentItem} handleCurrentItemChange={handleCurrentItemChange} />
 			</Grid>
 			<Grid
 				size={12}
 				sx={{
-					display: { xs: 'flex', md: 'none' },
-					justifyContent: 'space-between',
-					gap: 1,
+					display: { xs: 'flex', md: 'none' }
 				}}
 			>
 				<DrawerMenu openButtonText="Навигация">
+					{(closeDrawer) => <Navigation closeDrawer={closeDrawer} currentItem={currentItem} handleCurrentItemChange={handleCurrentItemChange} />}
 					<Navigation />
 				</DrawerMenu>
 			</Grid>
@@ -43,5 +50,7 @@ export const Admin = () => (
 				<Outlet />
 			</Grid>
 		</Grid>
-	</Box>
-);
+	</Box>)
+
+
+};

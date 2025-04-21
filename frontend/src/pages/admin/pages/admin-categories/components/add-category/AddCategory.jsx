@@ -4,21 +4,21 @@ import { useRequestServer } from '../../../../../../hooks';
 import { API_ROUTE } from '../../../../../../constants';
 
 export const AddCategory = ({ shouldUpdate, setShouldUpdate }) => {
-	const [categoryName, setCategoryName] = useState('');
+	const [categoryTitle, setCategoryTitle] = useState('');
 
 	const { isLoading, setIsLoading, request } = useRequestServer();
 
 	const handleCategoryNameChange = (event) => {
-		setCategoryName(event.target.value);
+		setCategoryTitle(event.target.value);
 	};
 
 	const handleAddCategory = () => {
-		if (!categoryName.trim()) return alert('Категория должна иметь название!');
+		if (!categoryTitle.trim()) return alert('Категория должна иметь название!');
 
-		request(API_ROUTE.CATEGORIES, 'POST', { title: categoryName })
+		request(API_ROUTE.CATEGORIES, 'POST', { title: categoryTitle })
 			.then(() => {
 				setShouldUpdate(!shouldUpdate);
-				setCategoryName('');
+				setCategoryTitle('');
 			})
 			.finally(() => {
 				setIsLoading(false);
@@ -29,7 +29,7 @@ export const AddCategory = ({ shouldUpdate, setShouldUpdate }) => {
 		<Box sx={{ display: 'flex', alignItems: 'center' }}>
 			<TextField
 				placeholder="Название категории"
-				value={categoryName}
+				value={categoryTitle}
 				onChange={handleCategoryNameChange}
 				variant="outlined"
 				margin="normal"

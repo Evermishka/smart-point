@@ -29,7 +29,13 @@ export const AdminCategories = () => {
 			<Stack sx={{ flexGrow: 1, justifyContent: 'space-between' }}>
 				<List sx={{ px: 0 }}>
 					{categories.map(({ id, title }) => (
-						<AdminCategoryItem key={id} title={title} />
+						<AdminCategoryItem
+							key={id}
+							id={id}
+							title={title}
+							shouldUpdate={shouldUpdate}
+							setShouldUpdate={setShouldUpdate}
+						/>
 					))}
 				</List>
 			</Stack>

@@ -43,6 +43,16 @@ export const AdminCategoryItem = ({ id, title, shouldUpdate, setShouldUpdate }) 
 			});
 	};
 
+	const handleDeleteCategory = () => {
+		request(`${API_ROUTE.CATEGORIES}/${id}`, 'DELETE')
+		.then(() => {
+			setShouldUpdate(!shouldUpdate);
+		})
+		.finally(() => {
+			setIsLoading(false);
+		});
+	}
+
 	return (
 		<ListItem disablePadding sx={{ display: 'block' }}>
 			<ListItemButton sx={{ display: 'flex' }}>
@@ -73,7 +83,7 @@ export const AdminCategoryItem = ({ id, title, shouldUpdate, setShouldUpdate }) 
 						</IconButton>
 					</>
 				)}
-				<IconButton aria-label="delete">
+				<IconButton aria-label="delete" onClick={handleDeleteCategory}>
 					<DeleteIcon />
 				</IconButton>
 			</ListItemButton>

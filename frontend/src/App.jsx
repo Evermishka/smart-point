@@ -2,7 +2,7 @@ import { Routes, Route, Outlet, Navigate } from 'react-router-dom';
 import { Box, Container, CssBaseline } from '@mui/material';
 import AppTheme from './theme/AppTheme';
 import { Admin, Authorization, Main, Product, Registration } from './pages';
-import { AdminCategories } from './pages/admin/pages';
+import { AdminCategories, AdminProducts } from './pages/admin/pages';
 import { Footer, Header } from './components';
 import { ROUTE } from './constants';
 
@@ -38,16 +38,8 @@ export const App = (props) => {
 								element={<AdminCategories />}
 							/>
 							<Route
-								path={`${ROUTE.ADMIN_CATEGORIES}/:id`}
-								element={<div>Category add</div>}
-							/>
-							<Route
-								path={`${ROUTE.ADMIN_CATEGORIES}/:id/edit`}
-								element={<div>Category edit</div>}
-							/>
-							<Route
 								path={ROUTE.ADMIN_PRODUCTS}
-								element={<div>Products admin</div>}
+								element={<AdminProducts />}
 							/>
 							<Route
 								path={`${ROUTE.ADMIN_PRODUCTS}/:id`}

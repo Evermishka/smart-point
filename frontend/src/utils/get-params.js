@@ -13,7 +13,7 @@ export const getParams = ({
 
 	if (searchPhrase) params.append('search', searchPhrase);
 
-	if (currentCategory !== DEFAULT_CATEGORY.id)
+	if (currentCategory && currentCategory !== DEFAULT_CATEGORY.id)
 		params.append('category', currentCategory);
 
 	if (sortBy && order) {

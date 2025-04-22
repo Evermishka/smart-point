@@ -4,7 +4,7 @@ import {
 	ListItem,
 	ListItemButton,
 	ListItemText,
-	TextField
+	TextField,
 } from '@mui/material';
 import {
 	Edit as EditIcon,
@@ -45,13 +45,13 @@ export const AdminCategoryItem = ({ id, title, shouldUpdate, setShouldUpdate }) 
 
 	const handleDeleteCategory = () => {
 		request(`${API_ROUTE.CATEGORIES}/${id}`, 'DELETE')
-		.then(() => {
-			setShouldUpdate(!shouldUpdate);
-		})
-		.finally(() => {
-			setIsLoading(false);
-		});
-	}
+			.then(() => {
+				setShouldUpdate(!shouldUpdate);
+			})
+			.finally(() => {
+				setIsLoading(false);
+			});
+	};
 
 	return (
 		<ListItem disablePadding sx={{ display: 'block' }}>
@@ -83,8 +83,12 @@ export const AdminCategoryItem = ({ id, title, shouldUpdate, setShouldUpdate }) 
 						</IconButton>
 					</>
 				)}
-				<IconButton aria-label="delete" onClick={handleDeleteCategory}>
-					<DeleteIcon />
+				<IconButton
+					aria-label="delete"
+					onClick={handleDeleteCategory}
+					loading={isLoading}
+				>
+					{isLoading ? <CircularProgress size={24} /> : <DeleteIcon />}
 				</IconButton>
 			</ListItemButton>
 		</ListItem>

@@ -7,6 +7,7 @@ export const Navigation = ({ closeDrawer, currentItem, handleCurrentItemChange }
 		<List sx={{ px: 0 }}>
 			{ADMIN_NAVIGATION.map((item) => (
 				<NavigationItem
+					key={item.id}
 					id={item.id}
 					title={item.title}
 					currentItem={currentItem}

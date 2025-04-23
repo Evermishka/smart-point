@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { Box, List, Stack, Typography } from '@mui/material';
+import { Link, useNavigate } from 'react-router-dom';
+import { Box, Button, List, Stack, Typography } from '@mui/material';
 import { useRequestServer } from '../../../../hooks';
 import { getParams } from '../../../../utils';
 import {
@@ -56,7 +56,17 @@ export const AdminProducts = () => {
 				gap: 1,
 			}}
 		>
-			<Search />
+			<Box sx={{ display: 'flex' }}>
+				<Search />
+				<Button
+					variant="contained"
+					style={{ marginLeft: '8px', minWidth: 'auto', whiteSpace: 'nowrap' }}
+					component={Link}
+					to={`${ROUTE.ADMIN_PRODUCTS}/add`}
+				>
+					Добавить продукт
+				</Button>
+			</Box>
 			{isLoading ? (
 				<Loader />
 			) : products.length === 0 ? (

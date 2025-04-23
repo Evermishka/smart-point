@@ -2,7 +2,7 @@ import { Routes, Route, Outlet, Navigate } from 'react-router-dom';
 import { Box, Container, CssBaseline } from '@mui/material';
 import AppTheme from './theme/AppTheme';
 import { Admin, Authorization, Main, Product, Registration } from './pages';
-import { AdminCategories, AdminProducts } from './pages/admin/pages';
+import { AdminCategories, AdminProductForm, AdminProducts } from './pages/admin/pages';
 import { Footer, Header } from './components';
 import { ROUTE } from './constants';
 
@@ -42,8 +42,8 @@ export const App = (props) => {
 								element={<AdminProducts />}
 							/>
 							<Route
-								path={`${ROUTE.ADMIN_PRODUCTS}/:id`}
-								element={<div>Product add</div>}
+								path={`${ROUTE.ADMIN_PRODUCTS}/add`}
+								element={<AdminProductForm />}
 							/>
 							<Route
 								path={`${ROUTE.ADMIN_PRODUCTS}/:id/edit`}

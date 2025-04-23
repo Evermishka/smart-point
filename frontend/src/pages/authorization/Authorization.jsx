@@ -49,7 +49,7 @@ export const Authorization = () => {
 	}
 
 	return (
-		<FormContainer title={'Авторизация'}>
+		<FormContainer title={'Авторизация'} width={'450px'}>
 			<Box
 				component="form"
 				onSubmit={handleSubmit(submitHandler)}

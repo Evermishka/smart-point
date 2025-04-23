@@ -49,7 +49,7 @@ export const Registration = () => {
 	}
 
 	return (
-		<FormContainer title={'Регистрация'}>
+		<FormContainer title={'Регистрация'} width={'450px'}>
 			<Box
 				component="form"
 				onSubmit={handleSubmit(submitHandler)}

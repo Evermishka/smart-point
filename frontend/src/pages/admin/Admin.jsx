@@ -19,7 +19,7 @@ export const Admin = () => {
 			sx={{ display: 'flex', flexGrow: 1, justifyContent: 'flex-start' }}
 		>
 			<Grid
-				size={3}
+				size={2}
 				sx={{
 					display: { xs: 'none', md: 'flex' },
 					gap: 1,
@@ -39,7 +39,7 @@ export const Admin = () => {
 				</DrawerMenu>
 			</Grid>
 			<Grid
-				size={{ xs: 12, md: 9 }}
+				size={{ xs: 12, md: 10 }}
 				sx={{
 					display: 'flex',
 					flexDirection: 'column',

@@ -415,6 +415,11 @@ export const inputsCustomizations = {
               height: '2.5rem',
             },
           },
+          {
+            props: {
+              size: 'custom',
+            },
+          },
         ],
       }),
       notchedOutline: {

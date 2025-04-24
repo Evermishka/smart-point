@@ -1,1 +1,2 @@
-export * from './transform-product'
+export * from './get-product';
+export * from './transform-product';

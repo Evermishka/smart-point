@@ -47,7 +47,7 @@ export const App = (props) => {
 							/>
 							<Route
 								path={`${ROUTE.ADMIN_PRODUCTS}/:id/edit`}
-								element={<div>Product edit</div>}
+								element={<AdminProductForm />}
 							/>
 						</Route>
 						<Route path="*" element={<div>Error</div>} />

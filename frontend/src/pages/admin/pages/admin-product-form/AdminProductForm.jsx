@@ -1,12 +1,13 @@
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Box, MenuItem, TextField } from '@mui/material';
 import { FormContainer, FormSubmitButton } from '../../../../components';
 import { addProductFormSchema } from './components';
 import { useRequestServer } from '../../../../hooks';
+import { getProduct, transformProduct } from './utils';
 import { API_ROUTE } from '../../../../constants';
-import { useEffect, useState } from 'react';
-import { transformProduct } from './utils';
 
 export const AdminProductForm = () => {
 	const {
@@ -17,32 +18,62 @@ export const AdminProductForm = () => {
 	} = useForm({
 		resolver: yupResolver(addProductFormSchema),
 	});
+	const [product, setProduct] = useState(getProduct());
 	const [categories, setCategories] = useState([]);
 
 	const { isLoading, setIsLoading, request } = useRequestServer();
+
+	const params = useParams();
 
 	useEffect(() => {
 		request(`${API_ROUTE.CATEGORIES}`, 'GET')
 			.then((categories) => {
 				setCategories(categories.data);
 			})
-			.finally(() => setIsLoading(false));
+			.finally(() => setIsLoading(false));		
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
+	useEffect(() => {		
+		if (params.id) {
+			request(`${API_ROUTE.PRODUCTS}/${params.id}`, 'GET')
+				.then(({ data }) => {
+					const updatedProduct = getProduct(data);
+					setProduct(updatedProduct);
+					reset(updatedProduct);
+				})
+				.finally(() => setIsLoading(false));
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [params.id]);
+
 	const submitHandler = (product) => {
-		request(API_ROUTE.PRODUCTS, 'POST', transformProduct(product))
-			.then(({ data }) => {
-				console.log('data', data);
-				reset();
-			})
-			.finally(() => {
-				setIsLoading(false);
-			});
+		if (product.id) {
+			request(
+				`${API_ROUTE.PRODUCTS}/${product.id}`,
+				'PATCH',
+				transformProduct(product),
+			)
+				.then(() => {
+					alert('Продукт сохранён')
+				})
+				.finally(() => {
+					setIsLoading(false);
+				});
+		} else {
+			request(API_ROUTE.PRODUCTS, 'POST', transformProduct(product))
+				.then(() => {
+					alert('Продукт добавлен')
+					reset();
+				})
+				.finally(() => {
+					setIsLoading(false);
+				});
+		}
 	};
 
 	return (
-		<FormContainer title={'Добавить продукт'}>
+		<FormContainer title={product.id ? 'Редактировать продукт' : 'Добавить продукт'}>
 			<Box
 				component="form"
 				onSubmit={handleSubmit(submitHandler)}
@@ -51,11 +82,11 @@ export const AdminProductForm = () => {
 				<Controller
 					name="title"
 					control={control}
-					defaultValue=""
+					defaultValue={product.title}
 					render={({ field }) => (
 						<TextField
 							{...field}
-							placeholder="Название"
+							label="Название"
 							variant="outlined"
 							fullWidth
 							error={!!errors.title}
@@ -74,12 +105,11 @@ export const AdminProductForm = () => {
 					render={({ field }) => (
 						<TextField
 							{...field}
-							select							
+							select
+							label="Категория"
 							variant="outlined"
 							error={!!errors.category}
-							helperText={
-								errors?.category?.message || 'Выберите категорию'
-							}
+							helperText={errors?.category?.message}
 							onChange={(event) => {
 								field.onChange(event);
 							}}
@@ -95,12 +125,12 @@ export const AdminProductForm = () => {
 				<Controller
 					name="imagePreview"
 					control={control}
-					defaultValue=""
+					defaultValue={product.imagePreview}
 					render={({ field }) => (
 						<TextField
 							{...field}
 							type="text"
-							placeholder="Главное изображение"
+							label="Главное изображение"
 							variant="outlined"
 							error={!!errors.imagePreview}
 							helperText={errors?.imagePreview?.message}
@@ -113,17 +143,18 @@ export const AdminProductForm = () => {
 				<Controller
 					name="images"
 					control={control}
-					defaultValue=""
+					defaultValue={product.images.length > 0 ? product.images : ''}
 					render={({ field }) => (
 						<TextField
 							{...field}
 							type="text"
-							placeholder="Список изображений (разделенные запятой)"
+							label="Дополнительные изображения"
+							placeholder="https://example.com/images_1.jpg, https://example.com/images_2.jpg, https://example.com/images_3.jpg"
 							variant="outlined"
 							multiline
 							rows={4}
 							size="custom"
-							sx={{ height: '90px' }}
+							sx={{ height: '100px' }}
 							error={!!errors.images}
 							helperText={errors?.images?.message}
 							onChange={(event) => {
@@ -135,12 +166,12 @@ export const AdminProductForm = () => {
 				<Controller
 					name="description"
 					control={control}
-					defaultValue=""
+					defaultValue={product.description}
 					render={({ field }) => (
 						<TextField
 							{...field}
 							type="text"
-							placeholder="Описание"
+							label="Описание"
 							variant="outlined"
 							multiline
 							rows={8}
@@ -157,12 +188,12 @@ export const AdminProductForm = () => {
 				<Controller
 					name="price"
 					control={control}
-					defaultValue=""
+					defaultValue={product.price}
 					render={({ field }) => (
 						<TextField
 							{...field}
 							type="number"
-							placeholder="Цена"
+							label="Цена"
 							variant="outlined"
 							error={!!errors.price}
 							helperText={errors?.price?.message}
@@ -175,12 +206,12 @@ export const AdminProductForm = () => {
 				<Controller
 					name="quantity"
 					control={control}
-					defaultValue=""
+					defaultValue={product.quantity}
 					render={({ field }) => (
 						<TextField
 							{...field}
 							type="number"
-							placeholder="Количество"
+							label="Количество"
 							variant="outlined"
 							error={!!errors.quantity}
 							helperText={errors?.quantity?.message}
@@ -192,7 +223,7 @@ export const AdminProductForm = () => {
 				/>
 				<FormSubmitButton
 					isLoading={isLoading}
-					buttonText={'Добавить продукт'}
+					buttonText={product.id ? 'Сохранить продукт' : 'Добавить продукт'}
 				></FormSubmitButton>
 			</Box>
 		</FormContainer>

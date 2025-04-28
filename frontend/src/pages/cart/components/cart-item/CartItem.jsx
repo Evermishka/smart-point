@@ -1,22 +1,11 @@
 import { Link } from 'react-router-dom';
 import { styled } from '@mui/system';
+import { Box, Card, CardHeader, CardMedia, Grid } from '@mui/material';
 import {
-	Box,
-	Card,
-	CardContent,
-	CardHeader,
-	CardMedia,
-	CircularProgress,
-	Grid,
-	IconButton,
-	Typography,
-} from '@mui/material';
-import {
-	AddCircleOutline as AddIcon,
-	Delete as DeleteIcon,
-	RemoveCircleOutline as RemoveIcon,
-} from '@mui/icons-material';
-import { useRequestServer } from '../../../../hooks';
+	ChangeItemQuantityInCart,
+	RemoveFromCartButton,
+} from '../../../../components/cart-button/components';
+import { useCart, useRequestServer } from '../../../../hooks';
 import { transformPrice } from '../../../../utils';
 
 const StyledLink = styled(Link)({
@@ -25,26 +14,34 @@ const StyledLink = styled(Link)({
 	flexGrow: 1,
 });
 
-export const CartItem = ({ product, quantity }) => {
+export const CartItem = ({ product }) => {
 	const { id, title, imagePreview, price } = product;
 
 	const { isLoading, setIsLoading, request } = useRequestServer();
 
-	const handleDeleteProductFromCart = async () => {};
+	const {
+		handleIncreaseItemQuantityInCart,
+		handleDecreaseItemQuantityInCart,
+		handleDeleteProductFromCart,
+		isInCart,
+		productQuantityInCart,
+	} = useCart(product, setIsLoading, request);
+
+	if (!isInCart) return null;
 
 	return (
-		<StyledLink to={`/${id}`}>
-			<Card
-				variant="outlined"
-				sx={{
-					display: 'flex',
-					justifyContent: 'space-between',
-					alignItems: { xs: 'center' },
-					flexGrow: 1,
-					flexDirection: { xs: 'column', sm: 'row' },
-				}}
-			>
-				<Grid size={{ xs: 6, sm: 3 }} sx={{ display: 'flex' }}>
+		<Card
+			variant="outlined"
+			sx={{
+				display: 'flex',
+				justifyContent: 'space-between',
+				alignItems: { xs: 'center' },
+				flexGrow: 1,
+				flexDirection: { xs: 'column', sm: 'row' },
+			}}
+		>
+			<Grid size={{ xs: 6, sm: 3 }} sx={{ display: 'flex' }}>
+				<StyledLink to={`/${id}`}>
 					<CardMedia
 						component="img"
 						image={imagePreview}
@@ -55,61 +52,47 @@ export const CartItem = ({ product, quantity }) => {
 							height: 'auto',
 						}}
 					/>
-				</Grid>
-				<Grid
-					size={{ xs: 12, md: 9 }}
+				</StyledLink>
+			</Grid>
+			<Grid
+				size={{ xs: 12, md: 9 }}
+				sx={{
+					display: 'flex',
+					flexDirection: 'column',
+					justifyContent: 'space-around',
+					alignItems: 'flex-start',
+					gap: 4,
+					height: '100%',
+				}}
+			>
+				<StyledLink to={`/${id}`}>
+					<CardHeader title={title} sx={{ color: 'text.secondary' }} />
+				</StyledLink>
+				<Box
 					sx={{
 						display: 'flex',
-						flexDirection: 'column',
-						justifyContent: 'space-around',
-						alignItems: 'flex-start',
-						gap: 4,
-						height: '100%',
+						justifyContent: 'space-between',
+						gap: 2,
+						width: '100%',
 					}}
 				>
-					<CardContent>
-						<CardHeader title={title} />
-					</CardContent>
-					<Box
-						sx={{
-							display: 'flex',
-							justifyContent: 'space-between',
-							gap: 2,
-							width: '100%',
-						}}
-					>
-						<CardHeader title={transformPrice(price)} />
-						<Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-							<IconButton
-								aria-label="delete"
-								onClick={handleDeleteProductFromCart}
-								loading={isLoading}
-							>
-								{isLoading ? (
-									<CircularProgress size={24} />
-								) : (
-									<RemoveIcon />
-								)}
-							</IconButton>
-							<Typography>{quantity}</Typography>
-							<IconButton
-								aria-label="delete"
-								onClick={handleDeleteProductFromCart}
-								loading={isLoading}
-							>
-								{isLoading ? <CircularProgress size={24} /> : <AddIcon />}
-							</IconButton>
-						</Box>
-						<IconButton
-							aria-label="delete"
-							onClick={handleDeleteProductFromCart}
-							loading={isLoading}
-						>
-							{isLoading ? <CircularProgress size={24} /> : <DeleteIcon />}
-						</IconButton>
-					</Box>
-				</Grid>
-			</Card>
-		</StyledLink>
+					<CardHeader title={transformPrice(price)} />
+					<ChangeItemQuantityInCart
+						handleDecreaseItemQuantityInCart={
+							handleDecreaseItemQuantityInCart
+						}
+						handleIncreaseItemQuantityInCart={
+							handleIncreaseItemQuantityInCart
+						}
+						isLoading={isLoading}
+						productQuantityInCart={productQuantityInCart}
+					/>
+					<RemoveFromCartButton
+						handleDeleteProductFromCart={handleDeleteProductFromCart}
+						isLoading={isLoading}
+					/>
+				</Box>
+			</Grid>
+		</Card>
 	);
 };

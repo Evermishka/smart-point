@@ -1,12 +1,6 @@
 import { Link as RouterLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import {
-	Box,
-	Button,
-	Divider,
-	MenuItem,
-	Typography,
-} from '@mui/material';
+import { Box, Button, Divider, MenuItem, Typography } from '@mui/material';
 import { Logo } from '../../../logo/Logo';
 import { MenuItemWithLink } from '../menu-item-with-link/MenuItemWithLink';
 import { checkAccess } from '../../../../utils';
@@ -30,6 +24,9 @@ export const MobileNavigation = ({ closeDrawer, handleLogoutButtonClick, isLoadi
 				<Logo fullWidth />
 			</Box>
 			<Divider sx={{ my: 3 }} />
+			<MenuItemWithLink to={ROUTE.CART} handleClick={closeDrawer}>
+				Корзина
+			</MenuItemWithLink>
 			{roleId === ROLE.GUEST ? (
 				<>
 					<MenuItem onClick={closeDrawer}>
@@ -39,7 +36,6 @@ export const MobileNavigation = ({ closeDrawer, handleLogoutButtonClick, isLoadi
 							fullWidth
 							component={RouterLink}
 							to={ROUTE.LOGIN}
-							
 						>
 							Войти
 						</Button>
@@ -63,7 +59,6 @@ export const MobileNavigation = ({ closeDrawer, handleLogoutButtonClick, isLoadi
 							Панель администратора
 						</MenuItemWithLink>
 					)}
-					<MenuItemWithLink to={ROUTE.CART} handleClick={closeDrawer}>Корзина</MenuItemWithLink>
 					<Divider sx={{ my: 3 }} />
 					<MenuItem onClick={closeDrawer}>
 						<Button

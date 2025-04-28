@@ -26,7 +26,11 @@ async function editCart(userId, productId, quantity) {
       }
     );
   } else {
-    updatedCart.items[itemIndex].quantity = quantity;
+    if (quantity === 0) {
+      await updatedCart.items.splice(itemIndex, 1);
+    } else {
+      updatedCart.items[itemIndex].quantity += quantity;
+    }
     await updatedCart.save();
   }
 

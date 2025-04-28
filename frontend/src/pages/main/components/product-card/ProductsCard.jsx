@@ -1,6 +1,6 @@
+import { Link } from 'react-router-dom';
 import { styled } from '@mui/system';
 import {
-	Button,
 	Card,
 	CardActions,
 	CardContent,
@@ -9,8 +9,8 @@ import {
 	Grid,
 	Typography,
 } from '@mui/material';
+import { CartButton } from '../../../../components';
 import { transformPrice } from '../../../../utils';
-import { Link } from 'react-router-dom';
 
 const StyledLink = styled(Link)({
 	textDecoration: 'none',
@@ -18,20 +18,20 @@ const StyledLink = styled(Link)({
 });
 
 export const ProductCard = ({ product }) => {
-	const { id, title, imagePreview, price } = product;
+	const { id, title, imagePreview, price } = product;	
 
 	return (
 		<Grid size={{ xs: 6, sm: 4, md: 3 }} sx={{ display: 'flex' }}>
-			<StyledLink to={`/${id}`}>
-				<Card
-					variant="outlined"
-					sx={{
-						display: 'flex',
-						flexDirection: 'column',
-						justifyContent: 'space-between',
-						flexGrow: 1,
-					}}
-				>
+			<Card
+				variant="outlined"
+				sx={{
+					display: 'flex',
+					flexDirection: 'column',
+					justifyContent: 'space-between',
+					flexGrow: 1,
+				}}
+			>
+				<StyledLink to={`/${id}`}>
 					<CardMedia
 						component="img"
 						image={imagePreview}
@@ -42,7 +42,14 @@ export const ProductCard = ({ product }) => {
 							height: 'auto',
 						}}
 					/>
-					<CardHeader title={transformPrice(price)} />
+				</StyledLink>
+				<StyledLink to={`/${id}`}>
+					<CardHeader
+						title={transformPrice(price)}
+						sx={{ color: 'text.secondary' }}
+					/>
+				</StyledLink>
+				<StyledLink to={`/${id}`}>
 					<CardContent
 						sx={{
 							flexGrow: 1,
@@ -56,13 +63,11 @@ export const ProductCard = ({ product }) => {
 							{title}
 						</Typography>
 					</CardContent>
-					<CardActions>
-						<Button variant="contained" size="small">
-							В корзину
-						</Button>
-					</CardActions>
-				</Card>
-			</StyledLink>
+				</StyledLink>
+				<CardActions>
+					<CartButton product={product} />
+				</CardActions>
+			</Card>
 		</Grid>
 	);
 };

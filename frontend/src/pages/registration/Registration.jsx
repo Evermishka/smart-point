@@ -12,8 +12,8 @@ import {
 } from '../../components';
 import { regFormSchema } from './components';
 import { useRequestServer } from '../../hooks';
-import { setUser } from '../../actions/set-user';
-import { selectUserRole } from '../../selectors';
+import { addToCartAsync, setCart, setUser } from '../../actions';
+import { selectCart, selectUserRole } from '../../selectors';
 import { API_ROUTE, ROLE, ROUTE } from '../../constants';
 
 export const Registration = () => {
@@ -30,15 +30,37 @@ export const Registration = () => {
 	const { isLoading, setIsLoading, request } = useRequestServer();
 	const dispatch = useDispatch();
 	const roleId = useSelector(selectUserRole);
+	const cartInStore = useSelector(selectCart);
 
 	const submitHandler = ({ login, password }) => {
 		request(API_ROUTE.REGISTER, 'POST', { login, password })
-			.then(({ error, user }) => {
+			.then(async ({ error, user }) => {
 				if (error) {
 					setServerError(`Ошибка запроса: ${error}`);
 					return;
 				}
-				dispatch(setUser(user));
+
+				const { id, login, roleId, cart } = user;
+
+				dispatch(setUser({ id, login, roleId }));
+
+				if (cartInStore.items.length) {
+					await Promise.all(
+						cartInStore.items.map((item) =>
+							dispatch(
+								addToCartAsync(
+									{
+										productId: item.product.id,
+										quantity: item.quantity,
+									},
+									request,
+								),
+							),
+						),
+					);
+				} else {
+					dispatch(setCart(cart));
+				}
 				reset();
 			})
 			.finally(() => setIsLoading(false));
@@ -119,7 +141,11 @@ export const Registration = () => {
 				></FormSubmitButton>
 			</Box>
 			{serverError && <FormServerErrorText serverError={serverError} />}
-			<FormFooter text={'Уже есть аккаунт? '} linkText={'Войти'} link={ROUTE.LOGIN} />
+			<FormFooter
+				text={'Уже есть аккаунт? '}
+				linkText={'Войти'}
+				link={ROUTE.LOGIN}
+			/>
 		</FormContainer>
 	);
 };

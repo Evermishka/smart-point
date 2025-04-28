@@ -12,8 +12,8 @@ import {
 } from '../../components';
 import { authFormSchema } from './components';
 import { useRequestServer } from '../../hooks';
-import { setUser } from '../../actions/set-user';
-import { selectUserRole } from '../../selectors';
+import { addToCartAsync, setCart, setUser } from '../../actions';
+import { selectCart, selectUserRole } from '../../selectors';
 import { API_ROUTE, ROLE, ROUTE } from '../../constants';
 
 export const Authorization = () => {
@@ -24,21 +24,44 @@ export const Authorization = () => {
 		formState: { errors },
 	} = useForm({
 		resolver: yupResolver(authFormSchema),
-	});
+	});	
 
 	const [serverError, setServerError] = useState('');
 	const { isLoading, setIsLoading, request } = useRequestServer();
 	const dispatch = useDispatch();
 	const roleId = useSelector(selectUserRole);
+	const cartInStore = useSelector(selectCart);
 
 	const submitHandler = ({ login, password }) => {
 		request(API_ROUTE.LOGIN, 'POST', { login, password })
-			.then(({ error, user }) => {
+			.then(async ({ error, user }) => {
 				if (error) {
 					setServerError(`Ошибка запроса: ${error}`);
 					return;
 				}
-				dispatch(setUser(user));
+
+				const { id, login, roleId, cart } = user;
+
+				dispatch(setUser({ id, login, roleId }));
+
+				if (cartInStore.items.length) {
+					await Promise.all(
+						cartInStore.items.map((item) =>
+							dispatch(
+								addToCartAsync(
+									{
+										productId: item.product.id,
+										quantity: item.quantity,
+									},
+									request,
+								),
+							),
+						),
+					);
+				} else {
+					dispatch(setCart(cart));
+				}
+
 				reset();
 			})
 			.finally(() => setIsLoading(false));

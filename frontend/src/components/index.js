@@ -1,3 +1,4 @@
+export * from './cart-button/CartButton';
 export * from './drawer-menu/DrawerMenu';
 export * from './footer/Footer';
 export * from './form-container/FormContainer';

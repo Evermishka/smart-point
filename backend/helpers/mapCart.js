@@ -3,9 +3,12 @@ module.exports = function (cart) {
     id: cart._id,
     userId: cart.user,
     items: cart.items.map((item) => ({
-      id: item.product._id,
-      title: item.product.title,
-      price: item.product.price,
+      product: {
+        id: item.product._id,
+        title: item.product.title,
+        imagePreview: item.product.image_preview,
+        price: item.product.price,
+      },
       quantity: item.quantity,
     })),
   };

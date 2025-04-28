@@ -24,7 +24,7 @@ export const Product = () => {
 
 	if (!product) return <></>;
 
-	const { title, description, images, price, quantity } = product;
+	const { title, images } = product;
 
 	return (
 		<Box>
@@ -67,12 +67,7 @@ export const Product = () => {
 						flexGrow: 1,
 					}}
 				>
-					<Content
-						title={title}
-						description={description}
-						price={price}
-						quantity={quantity}
-					/>
+					<Content product={product} />
 				</Grid>
 			</Grid>
 		</Box>

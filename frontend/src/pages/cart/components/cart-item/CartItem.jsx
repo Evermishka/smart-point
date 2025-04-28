@@ -25,6 +25,7 @@ export const CartItem = ({ product }) => {
 		handleDeleteProductFromCart,
 		isInCart,
 		productQuantityInCart,
+		productTotalQuantity
 	} = useCart(product, setIsLoading, request);
 
 	if (!isInCart) return null;
@@ -86,6 +87,7 @@ export const CartItem = ({ product }) => {
 						}
 						isLoading={isLoading}
 						productQuantityInCart={productQuantityInCart}
+						productTotalQuantity={productTotalQuantity}
 					/>
 					<RemoveFromCartButton
 						handleDeleteProductFromCart={handleDeleteProductFromCart}

@@ -1,14 +1,26 @@
 import { Link as RouterLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { styled } from '@mui/material/styles';
 import { Box, Button, Divider, MenuItem, Typography } from '@mui/material';
+import Badge, { badgeClasses } from '@mui/material/Badge';
 import { Logo } from '../../../logo/Logo';
 import { MenuItemWithLink } from '../menu-item-with-link/MenuItemWithLink';
-import { checkAccess } from '../../../../utils';
-import { selectUserRole } from '../../../../selectors';
+import { calculateTotalProductCount, checkAccess } from '../../../../utils';
+import { selectCart, selectUserRole } from '../../../../selectors';
 import { ROLE, ROUTE } from '../../../../constants';
+
+const CartBadge = styled(Badge)`
+	& .${badgeClasses.badge} {
+		top: 0;
+		right: -18px;
+	}
+`;
 
 export const MobileNavigation = ({ closeDrawer, handleLogoutButtonClick, isLoading }) => {
 	const roleId = useSelector(selectUserRole);
+	const { items } = useSelector(selectCart);
+
+	const totalCount = calculateTotalProductCount(items);
 
 	const isAdmin = checkAccess([ROLE.ADMIN], roleId);
 
@@ -26,6 +38,7 @@ export const MobileNavigation = ({ closeDrawer, handleLogoutButtonClick, isLoadi
 			<Divider sx={{ my: 3 }} />
 			<MenuItemWithLink to={ROUTE.CART} handleClick={closeDrawer}>
 				Корзина
+				<CartBadge badgeContent={totalCount} color="primary" overlap="circular" />
 			</MenuItemWithLink>
 			{roleId === ROLE.GUEST ? (
 				<>

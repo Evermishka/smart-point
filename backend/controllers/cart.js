@@ -29,7 +29,7 @@ async function editCart(userId, productId, quantity) {
     if (quantity === 0) {
       await updatedCart.items.splice(itemIndex, 1);
     } else {
-      updatedCart.items[itemIndex].quantity += quantity;
+      updatedCart.items[itemIndex].quantity = quantity;
     }
     await updatedCart.save();
   }

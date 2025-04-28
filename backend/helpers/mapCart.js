@@ -8,6 +8,7 @@ module.exports = function (cart) {
         title: item.product.title,
         imagePreview: item.product.image_preview,
         price: item.product.price,
+        quantity: item.product.quantity,
       },
       quantity: item.quantity,
     })),

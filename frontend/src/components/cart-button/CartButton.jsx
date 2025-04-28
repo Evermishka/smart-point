@@ -12,6 +12,7 @@ export const CartButton = ({ product }) => {
 		handleDeleteProductFromCart,
 		isInCart,
 		productQuantityInCart,
+		productTotalQuantity
 	} = useCart(product, setIsLoading, request);
 
 	return (
@@ -27,6 +28,7 @@ export const CartButton = ({ product }) => {
 						}
 						isLoading={isLoading}
 						productQuantityInCart={productQuantityInCart}
+						productTotalQuantity={productTotalQuantity}
 					/>
 					<RemoveFromCartButton
 						handleDeleteProductFromCart={handleDeleteProductFromCart}

@@ -6,6 +6,7 @@ import {
 	removeFromCartAsync,
 } from '../actions';
 import { selectCart } from '../selectors';
+import { editCartAsync, editCart } from '../actions';
 
 export const useCart = (product, setIsLoading, request) => {
 	const cart = useSelector(selectCart);
@@ -20,6 +21,8 @@ export const useCart = (product, setIsLoading, request) => {
 	const productQuantityInCart = isInCart
 		? cart.items.find((item) => item.product.id === product.id).quantity
 		: 0;
+
+	const productTotalQuantity = product.quantity;
 
 	const IsAuthenticatedUser = cart.id;
 
@@ -42,6 +45,7 @@ export const useCart = (product, setIsLoading, request) => {
 						title: product.title,
 						imagePreview: product.imagePreview,
 						price: product.price,
+						quantity: product.quantity
 					},
 					quantity: 1,
 				},
@@ -51,9 +55,45 @@ export const useCart = (product, setIsLoading, request) => {
 		}
 	};
 
-	const handleIncreaseItemQuantityInCart = () => {};
+	const handleIncreaseItemQuantityInCart = () => {
+		if (IsAuthenticatedUser) {
+			const newCartItem = {
+				productId: product.id,
+				quantity: productQuantityInCart + 1,
+			};
 
-	const handleDecreaseItemQuantityInCart = () => {};
+			dispatch(editCartAsync(newCartItem, request)).finally(() => {
+				setIsLoading(false);
+			});
+		} else {
+			const newCartItem = {
+				productId: product.id,
+				quantity: productQuantityInCart + 1,
+			};
+
+			dispatch(editCart(newCartItem));
+		}
+	};
+
+	const handleDecreaseItemQuantityInCart = () => {
+		if (IsAuthenticatedUser) {
+			const newCartItem = {
+				productId: product.id,
+				quantity: productQuantityInCart - 1,
+			};
+
+			dispatch(editCartAsync(newCartItem, request)).finally(() => {
+				setIsLoading(false);
+			});
+		} else {
+			const newCartItem = {
+				productId: product.id,
+				quantity: productQuantityInCart - 1,
+			};
+
+			dispatch(editCart(newCartItem));
+		}
+	};
 
 	const handleDeleteProductFromCart = () => {
 		if (IsAuthenticatedUser) {
@@ -64,7 +104,7 @@ export const useCart = (product, setIsLoading, request) => {
 			dispatch(removeFromCartAsync(deletedCartItem, request)).finally(() => {
 				setIsLoading(false);
 			});
-		} else {			
+		} else {
 			dispatch(removeFromCart(product.id));
 		}
 	};
@@ -76,5 +116,6 @@ export const useCart = (product, setIsLoading, request) => {
 		handleDeleteProductFromCart,
 		isInCart,
 		productQuantityInCart,
+		productTotalQuantity
 	};
 };

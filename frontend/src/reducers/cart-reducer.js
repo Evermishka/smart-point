@@ -21,12 +21,21 @@ export const cartReducer = (state = initialCartState, action) => {
 					? [...action.payload.items]
 					: [...state.items, action.payload.item],
 			};
+		case ACTION_TYPE.EDIT_CART:
+			return {
+				...state,
+				items: state.id
+					? [...action.payload.items]
+					: state.items.map((item) =>
+							item.product.id === action.payload.productId
+								? { ...item, quantity: action.payload.quantity }
+								: item,
+						),
+			};
 		case ACTION_TYPE.REMOVE_FROM_CART:
 			return {
 				...state,
-				items: [
-					...state.items.filter((item) => item.product.id !== action.payload),
-				],
+				items: state.items.filter((item) => item.product.id !== action.payload),
 			};
 		case ACTION_TYPE.LOGOUT:
 			return initialCartState;

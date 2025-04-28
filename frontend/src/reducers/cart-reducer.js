@@ -1,6 +1,6 @@
 const initialCartState = {
 	id: null,
-    userUd: null,
+    userId: null,
 	items: []
 };
 

@@ -1,5 +1,6 @@
 export * from './cart-button/CartButton';
 export * from './drawer-menu/DrawerMenu';
+export * from './error/Error';
 export * from './footer/Footer';
 export * from './form-container/FormContainer';
 export * from './form-footer/FormFooter';
@@ -9,5 +10,6 @@ export * from './header/Header';
 export * from './loader/Loader';
 export * from './logo/Logo';
 export * from './pagination/Pagination';
+export * from './private-content/PrivateContent';
 export * from './search/Search';
 export * from './sorting/Sorting';

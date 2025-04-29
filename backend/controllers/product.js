@@ -66,7 +66,12 @@ async function getProducts(
 // get item
 
 async function getProduct(id) {
-  return Product.findById(id).populate("category");
+  try {
+    return Product.findById(id).populate("category");
+  } catch (error) {
+    throw new Error(error.message);
+  }
+  
 }
 
 module.exports = {

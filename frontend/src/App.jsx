@@ -3,8 +3,8 @@ import { Box, Container, CssBaseline } from '@mui/material';
 import AppTheme from './theme/AppTheme';
 import { Admin, Authorization, Cart, Main, Product, Registration } from './pages';
 import { AdminCategories, AdminProductForm, AdminProducts } from './pages/admin/pages';
-import { Footer, Header } from './components';
-import { ROUTE } from './constants';
+import { Error, Footer, Header } from './components';
+import { ERROR, ROUTE } from './constants';
 
 export const App = (props) => {
 	return (
@@ -50,7 +50,7 @@ export const App = (props) => {
 								element={<AdminProductForm />}
 							/>
 						</Route>
-						<Route path="*" element={<div>Error</div>} />
+						<Route path="*" element={<Error error={ERROR.PAGE_NOT_EXIST} />} />
 					</Routes>
 				</Container>
 				<Footer />

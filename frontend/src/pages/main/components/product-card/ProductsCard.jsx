@@ -11,6 +11,7 @@ import {
 } from '@mui/material';
 import { CartButton } from '../../../../components';
 import { transformPrice } from '../../../../utils';
+import { ROUTE } from '../../../../constants';
 
 const StyledLink = styled(Link)({
 	textDecoration: 'none',

@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Box, Grid } from '@mui/material';
-import { Loader } from '../../components';
+import { Error, Loader } from '../../components';
 import { Content, Gallery } from './components';
 import { useRequestServer } from '../../hooks';
-import { API_ROUTE } from '../../constants';
+import { API_ROUTE, ERROR } from '../../constants';
 
 export const Product = () => {
 	const [product, setProduct] = useState(null);
@@ -22,7 +22,7 @@ export const Product = () => {
 
 	if (isLoading) return <Loader />;
 
-	if (!product) return <></>;
+	if (!product) return <Error error={ERROR.PAGE_NOT_EXIST} />;
 
 	const { title, images } = product;
 

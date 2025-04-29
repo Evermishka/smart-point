@@ -39,6 +39,8 @@ export const cartReducer = (state = initialCartState, action) => {
 			};
 		case ACTION_TYPE.LOGOUT:
 			return initialCartState;
+		case ACTION_TYPE.PLACE_ORDER:
+			return initialCartState;
 		default:
 			return state;
 	}

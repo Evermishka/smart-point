@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:5173';
+const BASE_URL = '176.124.218.218';
 
 export const API_ROUTE = {
 	CARTS: `${BASE_URL}/api/carts`,

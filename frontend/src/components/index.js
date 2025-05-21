@@ -10,6 +10,6 @@ export * from './header/Header';
 export * from './loader/Loader';
 export * from './logo/Logo';
 export * from './pagination/Pagination';
-export * from './private-content/PrivateContent';
+export * from './/private-route/PrivateRoute';
 export * from './search/Search';
 export * from './sorting/Sorting';
